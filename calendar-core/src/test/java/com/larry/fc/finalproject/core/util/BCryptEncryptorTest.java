@@ -1,4 +1,4 @@
-package com.larry.fc.finalproject.core;
+package com.larry.fc.finalproject.core.util;
 
 import com.larry.fc.finalproject.core.util.BcryptEncryptor;
 import com.larry.fc.finalproject.core.util.Encryptor;

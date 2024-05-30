@@ -1,14 +1,9 @@
 package com.larry.fc.finalproject.core.domain;
 
-import com.larry.fc.finalproject.core.domain.entity.Engagement;
 import com.larry.fc.finalproject.core.domain.entity.Schedule;
 import com.larry.fc.finalproject.core.domain.entity.User;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class Event {
@@ -17,7 +12,22 @@ public class Event {
         this.schedule = schedule;
     }
 
+    public Long getId() {
+        return this.schedule.getId();
+    }
+    public LocalDateTime getStartAt() {
+        return schedule.getStartAt();
+    }
+
+    public LocalDateTime getEndAt() {
+        return schedule.getEndAt();
+    }
+
     public User getWriter(){
         return this.schedule.getWriter();
+    }
+
+    public boolean isOverlapped(LocalDateTime startAt, LocalDateTime endAt) {
+        return this.getStartAt().isBefore(endAt) && startAt.isBefore(this.getEndAt());
     }
 }

@@ -1,4 +1,4 @@
-package com.larry.fc.finalproject.core;
+package com.larry.fc.finalproject.core.domain;
 
 import com.larry.fc.finalproject.core.domain.entity.User;
 import com.larry.fc.finalproject.core.util.Encryptor;
