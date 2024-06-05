@@ -7,6 +7,8 @@ import com.larry.fc.finalproject.core.domain.entity.Engagement;
 import com.larry.fc.finalproject.core.domain.entity.Schedule;
 import com.larry.fc.finalproject.core.domain.entity.repository.EngagementRepository;
 import com.larry.fc.finalproject.core.domain.entity.repository.ScheduleRepository;
+import com.larry.fc.finalproject.core.exception.CalendarException;
+import com.larry.fc.finalproject.core.exception.ErrorCode;
 import com.larry.fc.finalproject.core.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,7 +32,7 @@ public class EventService {
                 e.getEvent().isOverlapped(
                         eventCreateReq.getStartAt(), eventCreateReq.getEndAt())
         && e.getStatus() == RequestStatus.ACCEPTED)){
-            throw new RuntimeException("cannot make engagement. period overlapped.");
+            throw new CalendarException(ErrorCode.ALREADY_EXISTS_USER);
         }
         final Schedule eventSchedule = Schedule.event(eventCreateReq.getTitle(), eventCreateReq.getDescription(), eventCreateReq.getStartAt(), eventCreateReq.getEndAt(), userService.findByUserId(authUser.getId()));
         scheduleRepository.save(eventSchedule);
