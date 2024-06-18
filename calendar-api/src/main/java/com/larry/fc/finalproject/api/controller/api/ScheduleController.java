@@ -1,10 +1,8 @@
 package com.larry.fc.finalproject.api.controller.api;
 
 import com.larry.fc.finalproject.api.dto.*;
-import com.larry.fc.finalproject.api.service.EventService;
-import com.larry.fc.finalproject.api.service.NotificationService;
-import com.larry.fc.finalproject.api.service.TaskService;
-import com.larry.fc.finalproject.api.service.ScheduleQueryService;
+import com.larry.fc.finalproject.api.service.*;
+import com.larry.fc.finalproject.core.domain.RequestStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +21,7 @@ public class ScheduleController {
     private final EventService eventService;
     private final NotificationService notificationService;
     private final ScheduleQueryService scheduleQueryService;
+    private final EngagementService engagementService;
 
     @PostMapping("/tasks")
     public ResponseEntity<Void> createTask(
@@ -76,5 +75,12 @@ public class ScheduleController {
             @DateTimeFormat(pattern = "yyyy-MM") String yearMonth
     ){
         return scheduleQueryService.getScheduleByMonth(authUser, yearMonth == null ? YearMonth.now() : YearMonth.parse(yearMonth));
+    }
+    @PutMapping("/events/engagements/{engagementId}")
+    public RequestStatus updateEngagement(
+            @Valid @RequestBody ReplyEngagementReq replyEngagementReq,
+            @PathVariable Long engagementId,
+            AuthUser authUser){
+        return engagementService.update(authUser, engagementId, replyEngagementReq.getType());
     }
 }

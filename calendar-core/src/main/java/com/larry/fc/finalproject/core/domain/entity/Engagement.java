@@ -1,17 +1,20 @@
 package com.larry.fc.finalproject.core.domain.entity;
 
 import com.larry.fc.finalproject.core.domain.Event;
+import com.larry.fc.finalproject.core.domain.RequestReplyType;
 import com.larry.fc.finalproject.core.domain.RequestStatus;
 import com.larry.fc.finalproject.core.domain.ScheduleType;
 import com.larry.fc.finalproject.core.util.Period;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.scheduling.annotation.Scheduled;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
+@Builder
+@AllArgsConstructor
 @Getter
 @NoArgsConstructor
 @Entity
@@ -27,12 +30,12 @@ public class Engagement extends  BaseEntity {
     private User attendee;
 
     @Enumerated(EnumType.STRING)
-    private RequestStatus status;
+    private RequestStatus requestStatus;
 
     public Engagement(Schedule eventSchedule, User attendee) {
         assert eventSchedule.getScheduleType() == ScheduleType.EVENT;
         this.schedule = eventSchedule;
-        this.status = RequestStatus.REQUESTED;
+        this.requestStatus = RequestStatus.REQUESTED;
         this.attendee = attendee;
     }
 
@@ -44,9 +47,9 @@ public class Engagement extends  BaseEntity {
         return attendee;
     }
 
-    public RequestStatus getStatus() {
-        return status;
-    }
+//    public RequestStatus getRequestStatus() {
+//        return RequestStatus;
+//    }
 
     public boolean isOverlapped(LocalDate date){
         return this.schedule.isOverlapped(date);
@@ -54,5 +57,17 @@ public class Engagement extends  BaseEntity {
 
     public boolean isOverlapped(Period period) {
         return this.schedule.isOverlapped(period);
+    }
+
+    public Engagement reply(RequestReplyType type) {
+        switch (type){
+            case ACCEPT:
+                this.requestStatus = RequestStatus.ACCEPTED;
+                break;
+            case REJECT:
+                this.requestStatus = RequestStatus.REQUESTED;
+                break;
+        }
+        return this;
     }
 }
