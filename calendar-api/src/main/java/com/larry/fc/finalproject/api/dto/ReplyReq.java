@@ -2,14 +2,14 @@ package com.larry.fc.finalproject.api.dto;
 
 import com.larry.fc.finalproject.core.domain.RequestReplyType;
 
-public class ReplyEngagementReq {
+public class ReplyReq {
     private  RequestReplyType type; //REJECT, ACCETP
 
-    public ReplyEngagementReq(RequestReplyType type) {
+    public ReplyReq(RequestReplyType type) {
         this.type = type;
     }
 
-    public ReplyEngagementReq() {
+    public ReplyReq() {
     }
 
     public RequestReplyType getType() {
